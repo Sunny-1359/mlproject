@@ -24,7 +24,7 @@ def save_object(file_path,obj):
         raise CustomException(e,sys)
     
 
-def evaluate_model(X_train,Y_train,X_test,Y_test,models):
+def evaluate_model(X_train,Y_train,X_test,Y_test,models,params):
     try:
         report = {}
 

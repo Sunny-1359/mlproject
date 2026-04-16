@@ -50,7 +50,69 @@ class ModelTrainer:
 
             }
 
-            model_report:dict=evaluate_model(X_train=X_train,Y_train=Y_train,X_test=X_test,Y_test=Y_test,models=models)
+            params = {
+                "Linear Regression": {
+                    "fit_intercept": [True, False],
+                    "positive": [True, False]
+                },
+
+                "K-Neighbors Regressor": {
+                    "n_neighbors": [3, 5, 7, 9],
+                    "weights": ["uniform", "distance"],
+                    "algorithm": ["auto", "ball_tree", "kd_tree"],
+                    "p": [1, 2]
+                },
+
+                "Decision Tree": {
+                    "criterion": ["squared_error", "friedman_mse", "absolute_error"],
+                    "splitter": ["best", "random"],
+                    "max_depth": [None, 5, 10, 20],
+                    "min_samples_split": [2, 5, 10],
+                    "min_samples_leaf": [1, 2, 4]
+                },
+
+                "Random Forest": {
+                    "n_estimators": [50, 100, 200],
+                    "criterion": ["squared_error", "absolute_error"],
+                    "max_depth": [None, 10, 20],
+                    "min_samples_split": [2, 5],
+                    "min_samples_leaf": [1, 2],
+                    "max_features": ["sqrt", "log2"]
+                },
+
+                "XGBRegressor": {
+                    "n_estimators": [100, 200],
+                    "learning_rate": [0.01, 0.1],
+                    "max_depth": [3, 5, 7],
+                    "subsample": [0.8, 1.0],
+                    "colsample_bytree": [0.8, 1.0]
+                },
+
+                "CatBoosting Regressor": {
+                    "iterations": [100, 200],
+                    "learning_rate": [0.01, 0.1],
+                    "depth": [4, 6, 8],
+                    "l2_leaf_reg": [1, 3, 5],
+                    "loss_function": ["RMSE", "MAE"]
+                },
+                
+                "AdaBoost Regressor": {
+                    "n_estimators": [50, 100, 200],
+                    "learning_rate": [0.01, 0.1, 1],
+                    "loss": ["linear", "square", "exponential"]
+                },
+                
+                "Gradient Boosting": {
+                    "n_estimators": [100, 200],
+                    "learning_rate": [0.01, 0.1],
+                    "max_depth": [3, 5],
+                    "subsample": [0.8, 1.0],
+                    "loss": ["squared_error", "absolute_error", "huber"]
+                }
+            }
+
+
+            model_report:dict=evaluate_model(X_train=X_train,Y_train=Y_train,X_test=X_test,Y_test=Y_test,models=models,params=params)
 
             best_model_score=max(sorted(model_report.values()))
 
